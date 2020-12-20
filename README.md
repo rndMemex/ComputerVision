@@ -1,2 +1,3 @@
-# ComputerVision-with-OpenCV
-Exercises in computer vision with OpenCV
+### ComputerVision
+
+Computer vision in Python with OpenCV
