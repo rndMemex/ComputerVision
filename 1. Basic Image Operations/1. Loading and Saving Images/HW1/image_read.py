@@ -19,5 +19,5 @@ def read_and_show(path, cmap = None, fig_size = (10, 10)):
 
 
 # test
-read_and_show('./img/robotic_arm.jpg')
+read_and_show('../img/robotic_arm.jpg')
      

@@ -26,7 +26,7 @@ cv2.waitKey(0) # to see a still image until you press something
 
 
 # crop image
-crop_image = image[100:1000, 10:300].copy()
+crop_image = image[100:1000, 10:500].copy()
 cv2.imshow('Output', crop_image) # B R G input  
 cv2.waitKey(0) # to see a still image until you press something
 saving_image(crop_image, args["save"])
