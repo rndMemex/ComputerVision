@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-
+import os
 
 def display_canvas(image, cmap = None, fig_size = (10,10)):
     fig, ax = plt.subplots(figsize=fig_size)
@@ -23,5 +23,6 @@ mask = np.zeros(image.shape[:2], dtype='uint8')
 cv2.rectangle(mask, (550,195), (620, 265), 255, -1)
 masked = cv2.bitwise_and(image, image, mask=mask)
 display_canvas(masked)
-saving_image(image, './img')
+masked = np.flip(masked, axis =2)
+saving_image(masked, './img')
 
