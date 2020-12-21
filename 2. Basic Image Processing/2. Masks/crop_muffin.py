@@ -1,3 +1,8 @@
+# crop_muffin.py, 
+# Crop out a muffin from a picture
+# Copyright() rndmemex@cantab.net
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
