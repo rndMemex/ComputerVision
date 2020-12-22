@@ -38,7 +38,7 @@ def rotate(image, output):
     angle = random.choice(angles)
     M = cv2.getRotationMatrix2D((cX, cY), angle, 1.0)
     rotated = cv2.warpAffine(image, M, (width, height))
-   # rotated = np.flip(rotated, axis = 2)
+    # rotated = np.flip(rotated, axis = 2)
     plt.subplot(1,2,2),plt.imshow(rotated)
     plt.title("Rotated by {} Degrees".format(angle)), plt.xticks([]), plt.yticks([])
     plt.show()
@@ -52,7 +52,7 @@ def bright(image, output):
     print("BRIGHTEN by {}...".format(rand_brightnes))
     M = np.ones(image.shape, dtype = "uint8") * rand_brightnes
     added = cv2.add(image, M)
-   # added= np.flip(added, axis = 2)
+    # added= np.flip(added, axis = 2)
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,1),plt.imshow(image)
     plt.title('Original'), plt.xticks([]), plt.yticks([])
@@ -92,7 +92,7 @@ def translate(image, output):
 def scale(image, output):
     # scale stuff
     print("SCALING...")
-    resized_width = [1280, 1920, 400]
+    resized_width = [1280, 1920, 400, 960]
     rand_width = random.choice(resized_width)
 
     # calculating ratio of new image to old image
@@ -115,7 +115,7 @@ def flipOne(image, output):
     print("FLIPPING HORIZONTALLY...")
     # flip the image horizontally
     hflipped = cv2.flip(image, 1)
-  #  hflipped = np.flip(hflipped, axis=2)
+    #  hflipped = np.flip(hflipped, axis=2)
 
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,2),plt.imshow(hflipped)
