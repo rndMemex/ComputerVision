@@ -47,8 +47,10 @@ def rotate(image, output):
 
 def bright(image, output):
     # add stuff
-    print("BRIGHTEN...")
-    M = np.ones(image.shape, dtype = "uint8") * 100
+    bright_num = [50, 90, 100, 150, 200]
+    rand_brightnes = random.choice(bright_num)
+    print("BRIGHTEN by {}...".format(rand_brightnes))
+    M = np.ones(image.shape, dtype = "uint8") * rand_brightnes
     added = cv2.add(image, M)
    # added= np.flip(added, axis = 2)
     plt.figure(figsize=(20,10))
@@ -61,7 +63,10 @@ def bright(image, output):
 
 def substract(image, output):
     #  substract stuff
-    M = np.ones(image.shape, dtype = "uint8") * 50
+    subtract_num = [15, 50, 25, 55, 75, 29]
+    rand_darkness = random.choice(subtract_num)
+    print("DARKENED by {}...".format(rand_darkness))
+    M = np.ones(image.shape, dtype = "uint8") * rand_darkness
     subtracted = cv2.subtract(image, M)
     # subtracted = np.flip(subtracted, axis =2)
     plt.figure(figsize=(20,10))
@@ -87,11 +92,12 @@ def translate(image, output):
 def scale(image, output):
     # scale stuff
     print("SCALING...")
-    resized_width = 1280
+    resized_width = [1280, 1920, 400]
+    rand_width = random.choice(resized_width)
 
     # calculating ratio of new image to old image
-    ratio = resized_width / width
-    dim = (resized_width, int(height * ratio))
+    ratio = rand_width / width
+    dim = (rand_width, int(height * ratio))
 
     resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
     print(f'Original shape: {image.shape} vs Resized shape {resized.shape}')
@@ -109,7 +115,7 @@ def flipOne(image, output):
     print("FLIPPING HORIZONTALLY...")
     # flip the image horizontally
     hflipped = cv2.flip(image, 1)
-    hflipped = np.flip(hflipped, axis=2)
+  #  hflipped = np.flip(hflipped, axis=2)
 
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,2),plt.imshow(hflipped)
@@ -144,7 +150,7 @@ def mask(image, output):
     # mask stuff
     print("MASKING...")
 
-    #   mask = np.zeros(image.shape[:2], dtype="uint8")
+    mask = np.zeros(image.shape[:2], dtype="uint8")
     cv2.circle(mask, (145, 200), 100, 255, -1)
     masked = cv2.bitwise_and(image, image, mask=mask)
     # masked = np.flip(masked, axis = 2)
@@ -183,13 +189,13 @@ transformationsSwitcher = {
     9: flipThree, 
     10: mask
 }
-
+samples = random.sample(range(1, 11),10)
+print(samples)
 # invoke switch block 
-for i in range (1, 11):
-    num = random.randint(1, 10)
+for i in samples:
     print("{}th Image".format(1))
-    print("random transformation: {}".format(num))
-    transformationsSwitcher[num](image, output)
+    print("random transformation: {}".format(i))
+    transformationsSwitcher[i](image, output)
 
 
 
