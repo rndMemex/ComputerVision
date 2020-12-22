@@ -20,21 +20,56 @@ def pipeline_one(path):
     M = cv2.getRotationMatrix2D((cX, cY), angle, 1.0)
     rotated = cv2.warpAffine(image, M, (width, height))
     plt.subplot(1,2,2),plt.imshow(rotated)
-    plt.title("Rotated by {} Degrees".format(angle), plt.xticks([]), plt.yticks([])
+    plt.title("Rotated by {} Degrees".format(angle)), plt.xticks([]), plt.yticks([])
     plt.show()
 
     # crop
     print("CROPPING...")
+    cropped = rotated[85:250, 85:220] # h, w 
+    plt.figure(figsize=(20,10))
+    plt.subplot(2,2,2),plt.imshow(cropped)
+    plt.title('Cropped'), plt.xticks([]), plt.yticks([])
+    plt.show()
 
     # scale
     print("SCALING...")
+    resized_width = 1280
 
+    # calculating ratio of new image to old image
+    ratio = resized_width / width
+    dim = (resized_width, int(height * ratio))
+
+    resized = cv2.resize(cropped, dim, interpolation=cv2.INTER_AREA)
+
+    print(f'Original shape: {cropped.shape} vs Resized shape {resized.shape}')
+    plt.figure(figsize=(20,10))
+    plt.subplot(1,2,1), plt.imshow(cropped) 
+    plt.title('Original')
+    plt.subplot(1,2,2), plt.imshow(resized)
+    plt.title('Resized')
+    plt.show()
+    
     # translate
     print("TRANSLATING...")
+    M = np.float32([[1, 0, 25], [0, 1, 50]])
+    shifted = cv2.warpAffine(resized, M, (image.shape[1], resized.shape[0]))
 
+    plt.figure(figsize=(20,10))
+    plt.subplot(1,2,2),plt.imshow(shifted)
+    plt.title('Translated'), plt.xticks([]), plt.yticks([])
+    plt.show()
     # mask
     print("MASKING...")
-# "crop", "rotate", "translate", "brighten", 
+
+    mask = np.zeros(shifted.shape[:2], dtype="uint8")
+    cv2.circle(mask, (145, 200), 100, 255, -1)
+    masked = cv2.bitwise_and(shifted, shifted, mask=mask)
+    plt.subplot(1,2,2),plt.imshow(masked)
+    plt.title("Masked"), plt.xticks([]), plt.yticks([])
+    plt.show()
+
+# "crop", "rotate", "translate", "brighten",
+    
 def pipeline_two(path):
     
     #crop
