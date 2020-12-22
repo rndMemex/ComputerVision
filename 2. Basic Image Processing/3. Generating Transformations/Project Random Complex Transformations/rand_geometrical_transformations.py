@@ -1,6 +1,6 @@
-# random_geometrically_tranformations.py
+# random_geometrical_tranformations.py
 # Description: Applying multiple tranformations at once on one image
-# Usage: python rand_geometriccally_tranformations.py
+# Usage: python rand_geometriccal_tranformations.py
 # Copyright() rndMemex@cantab.net
 
 import argparse
