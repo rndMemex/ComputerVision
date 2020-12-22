@@ -122,7 +122,7 @@ def flipOne(image, output):
     plt.title('Flipped Horizontally'), plt.xticks([]), plt.yticks([])
     plt.show()
 
-    saving_image(hflipped, output, 'flipedX_image.jpg')
+    saving_image(hflipped, output, 'flippedX_image.jpg')
 
 def flipTwo(image, output):
     print("FLIPPING VERTICALLY...")
@@ -133,7 +133,7 @@ def flipTwo(image, output):
     plt.subplot(2,2,3),plt.imshow(vflipped)
     plt.title('Flipped Vertically'), plt.xticks([]), plt.yticks([])
     plt.show()
-    saving_image(vflipped, output, 'flippedTwo_image.jpg')   
+    saving_image(vflipped, output, 'flippedY_image.jpg')   
 
 def flipThree(image, output):
     print("FLIPPING HORIZONTALLY & VERTICALLY...")
@@ -144,7 +144,7 @@ def flipThree(image, output):
     plt.subplot(2,2,4),plt.imshow(hvflipped)
     plt.title('Flipped Horizontally & Vertically'), plt.xticks([]), plt.yticks([])
     plt.show()
-    saving_image(hvflipped, output, 'flippedThree_image.jpg')
+    saving_image(hvflipped, output, 'flippedXY_image.jpg')
 
 def mask(image, output):
     # mask stuff
