@@ -52,7 +52,7 @@ def pipeline_one(path):
     # translate
     print("TRANSLATING...")
     M = np.float32([[1, 0, 25], [0, 1, 50]])
-    shifted = cv2.warpAffine(resized, M, (image.shape[1], resized.shape[0]))
+    shifted = cv2.warpAffine(resized, M, (resized.shape[1], resized.shape[0]))
 
     plt.figure(figsize=(20,10))
     plt.subplot(1,2,2),plt.imshow(shifted)
@@ -71,15 +71,44 @@ def pipeline_one(path):
 # "crop", "rotate", "translate", "brighten",
     
 def pipeline_two(path):
-    
+    image = np.flip(cv2.imread(path), axis =2)
     #crop
     print("CROPPING...")
+    cropped = image[85:250, 85:220] # h, w 
+    plt.figure(figsize=(20,10))
+    plt.subplot(2,2,2),plt.imshow(cropped)
+    plt.title('Cropped'), plt.xticks([]), plt.yticks([])
+    plt.show()
+
     # rotate
-    print("ROTATING...")
+    print("ROTATING....")
+    (height, width) = cropped.shape[:2]
+    (cX, cY) = (width / 2, height / 2 )
+    angle = random.choice(angles)
+    M = cv2.getRotationMatrix2D((cX, cY), angle, 1.0)
+    rotated = cv2.warpAffine(cropped, M, (width, height))
+    plt.subplot(1,2,2),plt.imshow(rotated)
+    plt.title("Rotated by {} Degrees".format(angle)), plt.xticks([]), plt.yticks([])
+    plt.show()
     # translate
     print("TRANSLATING...")
+    M = np.float32([[1, 0, 25], [0, 1, 50]])
+    shifted = cv2.warpAffine(rotated, M, (rotated.shape[1], rotated.shape[0]))
+
+    plt.figure(figsize=(20,10))
+    plt.subplot(1,2,2),plt.imshow(shifted)
+    plt.title('Translated'), plt.xticks([]), plt.yticks([])
+    plt.show()
     # brighten
     print("BRIGHTEN...")
+    M = np.ones(shifted.shape, dtype = "uint8") * 100
+    added = cv2.add(shifted, M)
 
+    plt.figure(figsize=(20,10))
+    plt.subplot(2,2,1),plt.imshow(shifted)
+    plt.title('Original'), plt.xticks([]), plt.yticks([])
+    plt.subplot(2,2,2),plt.imshow(added)
+    plt.title('Added'), plt.xticks([]), plt.yticks([])
+    plt.show()
 
     
