@@ -14,7 +14,8 @@ import random
 def saving_image(image, output, image_name):
     #save your image to output path using opencv
     path = output
-    cv2.imwrite(os.path.join(path, image_name), image)
+    im_bgr = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    cv2.imwrite(os.path.join(path, image_name), im_bgr)
     cv2.waitKey(0)
 
 # function block
@@ -62,7 +63,7 @@ def substract(image, output):
     #  substract stuff
     M = np.ones(image.shape, dtype = "uint8") * 50
     subtracted = cv2.subtract(image, M)
-   # subtracted = np.flip(subtracted, axis =2)
+    # subtracted = np.flip(subtracted, axis =2)
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,2),plt.imshow(subtracted)
     plt.title('Subtracted'), plt.xticks([]), plt.yticks([])
@@ -76,7 +77,7 @@ def translate(image, output):
     print("TRANSLATING...")
     M = np.float32([[1, 0, 25], [0, 1, 50]])
     shifted = cv2.warpAffine(image, M, (image.shape[1], image.shape[0]))
-   # shifted = np.flip(shifted, axis =2)
+    # shifted = np.flip(shifted, axis =2)
     plt.figure(figsize=(20,10))
     plt.subplot(1,2,2),plt.imshow(shifted)
     plt.title('Translated'), plt.xticks([]), plt.yticks([])
@@ -94,7 +95,7 @@ def scale(image, output):
 
     resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
     print(f'Original shape: {image.shape} vs Resized shape {resized.shape}')
-  #  resized = np.flip(resized, axis =2)
+    #  resized = np.flip(resized, axis =2)
     plt.figure(figsize=(20,10))
     plt.subplot(1,2,1), plt.imshow(image) 
     plt.title('Original')
@@ -121,7 +122,7 @@ def flipTwo(image, output):
     print("FLIPPING VERTICALLY...")
     # flip the image vertically
     vflipped = cv2.flip(image, 0) 
-  #  vflipped = np.flip(vflipped, axis = 2)  
+    #  vflipped = np.flip(vflipped, axis = 2)  
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,3),plt.imshow(vflipped)
     plt.title('Flipped Vertically'), plt.xticks([]), plt.yticks([])
@@ -132,7 +133,7 @@ def flipThree(image, output):
     print("FLIPPING HORIZONTALLY & VERTICALLY...")
     # flip the image along both axes
     hvflipped = cv2.flip(image, -1)
-   # hvflipped = np.flip(hvflipped, axis =2)
+    # hvflipped = np.flip(hvflipped, axis =2)
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,4),plt.imshow(hvflipped)
     plt.title('Flipped Horizontally & Vertically'), plt.xticks([]), plt.yticks([])
@@ -143,10 +144,10 @@ def mask(image, output):
     # mask stuff
     print("MASKING...")
 
- #   mask = np.zeros(image.shape[:2], dtype="uint8")
+    #   mask = np.zeros(image.shape[:2], dtype="uint8")
     cv2.circle(mask, (145, 200), 100, 255, -1)
     masked = cv2.bitwise_and(image, image, mask=mask)
-    masked = np.flip(masked, axis = 2)
+    # masked = np.flip(masked, axis = 2)
     plt.subplot(1,2,2),plt.imshow(masked)
     plt.title("Masked"), plt.xticks([]), plt.yticks([])
     plt.show()
