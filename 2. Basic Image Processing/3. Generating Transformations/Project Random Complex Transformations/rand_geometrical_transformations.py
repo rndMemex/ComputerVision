@@ -10,24 +10,11 @@ import os
 import matplotlib.pyplot as plt
 import random 
 
-ap = argparse.ArgumentParser()
-ap.add_argument('-i', '--image', required=True, help = 'Use -i flag with path to image as argument')
-ap.add_argument('-s', '--save', required=True, help = 'Use -s flag with path to output as argument')
-args = vars(ap.parse_args())
-
-# Loading an image
-image = cv2.imread(args["image"]) #B R G
-output = args["save"]
-cv2.imshow('Input Image', image)
-cv2.waitKey(0)
-image = np.flip(image, axis =2)
-angles= [25, 45, 60, 120, 180, 360, -45, -90 ]
-(height, width) = image.shape[:2]
 
 def saving_image(image, output, image_name):
     #save your image to output path using opencv
     path = output
-    cv2.imwrite(os.path.join(path,image_name), image)
+    cv2.imwrite(os.path.join(path, image_name), image)
     cv2.waitKey(0)
 
 # function block
@@ -35,10 +22,12 @@ def crop(image, output):
     #crop
     print("CROPPING...")
     cropped = image[85:250, 85:220] # h, w 
+   # cropped = np.flip(cropped, axis =2)
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,2),plt.imshow(cropped)
     plt.title('Cropped'), plt.xticks([]), plt.yticks([])
     plt.show()
+
     saving_image(cropped, output, 'cropped_image.jpg')
 
 def rotate(image, output):
@@ -48,10 +37,11 @@ def rotate(image, output):
     angle = random.choice(angles)
     M = cv2.getRotationMatrix2D((cX, cY), angle, 1.0)
     rotated = cv2.warpAffine(image, M, (width, height))
+   # rotated = np.flip(rotated, axis = 2)
     plt.subplot(1,2,2),plt.imshow(rotated)
     plt.title("Rotated by {} Degrees".format(angle)), plt.xticks([]), plt.yticks([])
     plt.show()
-    saving_image(rotate, output, 'rotated_image.jpg')
+    saving_image(rotated, output, 'rotated_image.jpg')
 
 
 def bright(image, output):
@@ -59,7 +49,7 @@ def bright(image, output):
     print("BRIGHTEN...")
     M = np.ones(image.shape, dtype = "uint8") * 100
     added = cv2.add(image, M)
-
+   # added= np.flip(added, axis = 2)
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,1),plt.imshow(image)
     plt.title('Original'), plt.xticks([]), plt.yticks([])
@@ -72,11 +62,12 @@ def substract(image, output):
     #  substract stuff
     M = np.ones(image.shape, dtype = "uint8") * 50
     subtracted = cv2.subtract(image, M)
+   # subtracted = np.flip(subtracted, axis =2)
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,2),plt.imshow(subtracted)
     plt.title('Subtracted'), plt.xticks([]), plt.yticks([])
     plt.show()
-    saving_image(substract, output, 'darkened_image.jpg')
+    saving_image(subtracted, output, 'darkened_image.jpg')
 
 
 def translate(image, output):
@@ -85,7 +76,7 @@ def translate(image, output):
     print("TRANSLATING...")
     M = np.float32([[1, 0, 25], [0, 1, 50]])
     shifted = cv2.warpAffine(image, M, (image.shape[1], image.shape[0]))
-
+   # shifted = np.flip(shifted, axis =2)
     plt.figure(figsize=(20,10))
     plt.subplot(1,2,2),plt.imshow(shifted)
     plt.title('Translated'), plt.xticks([]), plt.yticks([])
@@ -103,6 +94,7 @@ def scale(image, output):
 
     resized = cv2.resize(image, dim, interpolation=cv2.INTER_AREA)
     print(f'Original shape: {image.shape} vs Resized shape {resized.shape}')
+  #  resized = np.flip(resized, axis =2)
     plt.figure(figsize=(20,10))
     plt.subplot(1,2,1), plt.imshow(image) 
     plt.title('Original')
@@ -116,18 +108,20 @@ def flipOne(image, output):
     print("FLIPPING HORIZONTALLY...")
     # flip the image horizontally
     hflipped = cv2.flip(image, 1)
-
+    hflipped = np.flip(hflipped, axis=2)
 
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,2),plt.imshow(hflipped)
     plt.title('Flipped Horizontally'), plt.xticks([]), plt.yticks([])
     plt.show()
+
     saving_image(hflipped, output, 'flipedX_image.jpg')
 
 def flipTwo(image, output):
     print("FLIPPING VERTICALLY...")
     # flip the image vertically
-    vflipped = cv2.flip(image, 0)    
+    vflipped = cv2.flip(image, 0) 
+  #  vflipped = np.flip(vflipped, axis = 2)  
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,3),plt.imshow(vflipped)
     plt.title('Flipped Vertically'), plt.xticks([]), plt.yticks([])
@@ -138,6 +132,7 @@ def flipThree(image, output):
     print("FLIPPING HORIZONTALLY & VERTICALLY...")
     # flip the image along both axes
     hvflipped = cv2.flip(image, -1)
+   # hvflipped = np.flip(hvflipped, axis =2)
     plt.figure(figsize=(20,10))
     plt.subplot(2,2,4),plt.imshow(hvflipped)
     plt.title('Flipped Horizontally & Vertically'), plt.xticks([]), plt.yticks([])
@@ -148,13 +143,31 @@ def mask(image, output):
     # mask stuff
     print("MASKING...")
 
-    mask = np.zeros(image.shape[:2], dtype="uint8")
+ #   mask = np.zeros(image.shape[:2], dtype="uint8")
     cv2.circle(mask, (145, 200), 100, 255, -1)
     masked = cv2.bitwise_and(image, image, mask=mask)
+    masked = np.flip(masked, axis = 2)
     plt.subplot(1,2,2),plt.imshow(masked)
     plt.title("Masked"), plt.xticks([]), plt.yticks([])
     plt.show()
+
     saving_image(masked, output, 'masked_image.jpg')
+
+
+
+ap = argparse.ArgumentParser()
+ap.add_argument('-i', '--image', required=True, help = 'Use -i flag with path to image as argument')
+ap.add_argument('-s', '--save', required=True, help = 'Use -s flag with path to output as argument')
+args = vars(ap.parse_args())
+
+# Loading an image
+image = cv2.imread(args["image"]) #B R G
+output = args["save"]
+cv2.imshow('Input Image', image)
+cv2.waitKey(0)
+image = np.flip(image, axis =2)
+angles= [25, 45, 60, 120, 180, 360, -45, -90 ]
+(height, width) = image.shape[:2]
 
 
 transformationsSwitcher = {
