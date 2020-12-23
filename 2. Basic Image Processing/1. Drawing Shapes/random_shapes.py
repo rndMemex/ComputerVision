@@ -70,7 +70,7 @@ if num > 5 and num <= 7:
 if num > 7:
     #draw something else 1 circle, 1 rectangle, triangle and a line
      # Three vertices(tuples) of the triangle
-     p1 = (100 + x_rand, 200)
+     p1 = (100, 200)
      p2 = (50, 50)
      p3 = (300, 100)
 
