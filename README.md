@@ -1,3 +1,3 @@
 ### ComputerVision
 
-Computer vision fundamental in Python with OpenCV
+Computer vision fundamentals in Python with OpenCV
